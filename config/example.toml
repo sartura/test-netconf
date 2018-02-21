@@ -1,0 +1,56 @@
+[login]
+
+address = "[::]:830"
+username = "root"
+password = "root"
+
+[[unitTest]]
+
+name = "ssh_host_rsa_key"
+
+[[unitTest.test]]
+
+# check if host key ssh_host_rsa_key exists in the startup datastore
+RPC = """
+<get-config>
+  <source>
+    <startup/>
+  </source>
+  <filter type="subtree">
+    <netconf-server xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-server">
+      <listen>
+        <endpoint>
+          <name>test_ssh_listen_endpt</name>
+          <ssh>
+            <host-keys>
+              <host-key>
+                <name>test_ssh_listen_key</name>
+                <public-key/>
+              </host-key>
+            </host-keys>
+          </ssh>
+        </endpoint>
+      </listen>
+    </netconf-server>
+  </filter>
+</get-config>
+"""
+
+Reply= """<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><netconf-server xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-server"><listen><endpoint><name>test_ssh_listen_endpt</name><ssh><host-keys><host-key><name>test_ssh_listen_key</name><public-key>ssh_host_rsa_key</public-key></host-key></host-keys></ssh></endpoint></listen></netconf-server></data>"""
+
+# check if the host key ssh_host_rsa_key exist in the keystore directory
+# by default in docker it's at "/etc/ssh"
+
+[[unitTest.test]]
+
+# this requires installed and running YANG plugi test-plugin
+# https://github.com/sartura/test-plugin
+
+RPC = """
+  <call xmlns="urn:ietf:params:xml:ns:yang:test-plugin">
+    <command>find /etc/ssh -name ssh_host_rsa_key | grep ssh_host_rsa_key</command>
+  </call>
+"""
+
+Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">/etc/ssh/ssh_host_rsa_key
+</response>"""
