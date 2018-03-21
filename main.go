@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"time"
 
 	"github.com/BurntSushi/toml"
@@ -27,10 +29,30 @@ type unitTest struct {
 	Test []test
 }
 
+type testType int
+
+const (
+	stringMatch testType = iota + 1
+	regexMatch
+)
+
+func (t *testType) UnmarshalText(text []byte) error {
+	switch string(text) {
+	case "stringMatch":
+		*t = stringMatch
+	case "regexMatch":
+		*t = regexMatch
+	default:
+		return errors.New("Invalid test type")
+	}
+	return nil
+}
+
 type test struct {
-	Wait  int    //wait for n seconds
-	RPC   string //NETCONF command
-	Reply string //expected NETCONF reply
+	Wait  int      //wait for n seconds
+	RPC   string   //NETCONF command
+	Reply string   //expected NETCONF reply in exact string or regex format
+	Type  testType //reply match type
 }
 
 func parseConfig(configFile string) {
@@ -70,8 +92,25 @@ func parseConfig(configFile string) {
 				fmt.Printf("ERROR: %s\n", err)
 				fmt.Printf("Fail for test %s\n", test.RPC)
 			}
-			if test.Reply != reply.Data {
-				fmt.Printf("MISMATCH!\nEXPECTED: \n%s\nGOT: \n%s\n", test.Reply, reply.Data)
+
+			if reply != nil {
+				switch test.Type {
+				case regexMatch:
+					r, err := regexp.Compile(test.Reply)
+					if err != nil {
+						fmt.Printf("Invalid regular expression, error: %s", err.Error())
+						break
+					}
+					if !r.MatchString(reply.Data) {
+						fmt.Printf("MISMATCH!\nEXPECTED: \n%s\nGOT: \n%s\n", test.Reply, reply.Data)
+					}
+				case stringMatch:
+					if test.Reply != reply.Data {
+						fmt.Printf("MISMATCH!\nEXPECTED: \n%s\nGOT: \n%s\n", test.Reply, reply.Data)
+					}
+				default:
+					fmt.Println("Unknown test type: ", test.Type)
+				}
 			}
 		}
 	}
