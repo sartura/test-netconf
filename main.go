@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -32,8 +31,8 @@ type unitTest struct {
 type testType int
 
 const (
-	stringMatch testType = iota + 1
-	regexMatch
+	stringMatch testType = 0
+	regexMatch = 1
 )
 
 func (t *testType) UnmarshalText(text []byte) error {
@@ -43,7 +42,7 @@ func (t *testType) UnmarshalText(text []byte) error {
 	case "regexMatch":
 		*t = regexMatch
 	default:
-		return errors.New("Invalid test type")
+		*t = stringMatch
 	}
 	return nil
 }
