@@ -129,15 +129,21 @@ func parseConfig(configFile string, address string, username string, password st
 func main() {
 
 	/* get list of config files */
-	folder := flag.String("folder", ".", "Path to folder containing config files")
+	file := flag.String("file", "", "Path to folder containing config files")
+	folder := flag.String("folder", "", "Path to folder containing config files")
 	address := flag.String("address", "", "IP address and port of the NETCONF server")
 	username := flag.String("username", "", "NETCONF server usernamer")
 	password := flag.String("password", "", "NETCONF server password")
 	flag.Parse()
 
-	files, _ := ioutil.ReadDir(*folder)
-	for _, file := range files {
-		filePath := *folder + "/" + file.Name()
-		parseConfig(filePath, *address, *username, *password)
+	if "" != *folder {
+		files, _ := ioutil.ReadDir(*folder)
+		for _, file := range files {
+			filePath := *folder + "/" + file.Name()
+			parseConfig(filePath, *address, *username, *password)
+		}
+	}
+	if "" != *file {
+		parseConfig(*file, *address, *username, *password)
 	}
 }
