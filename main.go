@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"os"
 	"regexp"
 	"time"
 
@@ -64,7 +63,7 @@ func parseConfig(configFile string, address string, username string, password st
 	_, err := toml.DecodeFile(configFile, &Config)
 	if err != nil {
 		fmt.Printf("Toml error: %v\n", err)
-		os.Exit(1)
+		return
 	}
 
 	if "" == address {
