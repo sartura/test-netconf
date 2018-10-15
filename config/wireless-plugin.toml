@@ -1,0 +1,415 @@
+[login]
+
+address = "[::]:830"
+username = "root"
+password = "root"
+
+### apsteering ###
+### /terastream-wireless:apsteering/enabled true ###
+### /terastream-wireless:apsteering/monitor_interval 15 ###
+### /terastream-wireless:apsteering/rssi_threshold -85 ###
+### /terastream-wireless:apsteering/reassoc_timer 15 ###
+### /terastream-wireless:apsteering/retry_interval 3605 ###
+[[unitTest]]
+
+name = "apsteering"
+
+[[unitTest.test]]
+
+RPC = """
+<edit-config>
+    <target>
+        <running/>
+    </target>
+    <config>
+        <apsteering xmlns="http://terastrm.net/ns/yang/terastream-wireless">
+            <enabled>true</enabled>
+            <monitor_interval>15</monitor_interval>
+            <rssi_threshold>-85</rssi_threshold>
+            <reassoc_timer>15</reassoc_timer>
+            <retry_interval>3605</retry_interval>
+        </apsteering>
+    </config>
+</edit-config>
+"""
+
+Reply = """<ok/>"""
+
+[[unitTest.test]]
+
+RPC = """
+<get>
+    <filter  xmlns:terastream-wireless='http://terastrm.net/ns/yang/terastream-wireless'  type="xpath" select="/terastream-wireless:apsteering">
+    </filter>
+</get>
+"""
+
+Reply = """<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><apsteering xmlns="http://terastrm.net/ns/yang/terastream-wireless"><enabled>true</enabled><monitor_interval>15</monitor_interval><rssi_threshold>-85</rssi_threshold><reassoc_timer>15</reassoc_timer><retry_interval>3605</retry_interval></apsteering></data>"""
+
+[[unitTest.test]]
+
+RPC = """
+  <call xmlns="urn:ietf:params:xml:ns:yang:test-plugin">
+    <command>uci show wireless.apsteering</command>
+  </call>
+"""
+
+Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">wireless.apsteering=apsteering
+wireless.apsteering.enabled='1'
+wireless.apsteering.monitor_interval='15'
+wireless.apsteering.rssi_threshold='-85'
+wireless.apsteering.reassoc_timer='15'
+wireless.apsteering.retry_interval='3605'
+</response>"""
+
+### bandsteering ###
+### /terastream-wireless:bandsteering/enabled true ###
+### /terastream-wireless:bandsteering/policy true ###
+### /terastream-wireless:bandsteering/rssi_threshold -70 ###
+### /terastream-wireless:bandsteering/bw_util 65 ###
+[[unitTest]]
+
+name = "bandsteering"
+
+[[unitTest.test]]
+
+RPC = """
+<edit-config>
+    <target>
+        <running/>
+    </target>
+    <config>
+        <bandsteering xmlns="http://terastrm.net/ns/yang/terastream-wireless">
+            <enabled>true</enabled>
+            <policy>true</policy>
+            <rssi_threshold>-70</rssi_threshold>
+            <bw_util>65</bw_util>
+        </bandsteering>
+    </config>
+</edit-config>
+"""
+
+Reply = """<ok/>"""
+
+[[unitTest.test]]
+
+RPC = """
+<get>
+    <filter  xmlns:terastream-wireless='http://terastrm.net/ns/yang/terastream-wireless'  type="xpath" select="/terastream-wireless:bandsteering">
+    </filter>
+</get>
+"""
+
+Reply = """<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><bandsteering xmlns="http://terastrm.net/ns/yang/terastream-wireless"><enabled>true</enabled><policy>true</policy><rssi_threshold>-70</rssi_threshold><bw_util>65</bw_util></bandsteering></data>"""
+
+[[unitTest.test]]
+
+RPC = """
+  <call xmlns="urn:ietf:params:xml:ns:yang:test-plugin">
+    <command>uci show wireless.bandsteering</command>
+  </call>
+"""
+
+Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">wireless.bandsteering=bandsteering
+wireless.bandsteering.enabled='1'
+wireless.bandsteering.policy='1'
+wireless.bandsteering.rssi_threshold='-70'
+wireless.bandsteering.bw_util='65'
+</response>"""
+
+### devices ###
+[[unitTest]]
+
+name = "devices"
+
+[[unitTest.test]]
+### delete the existing device wl0
+RPC = """
+<edit-config>
+    <target>
+        <running/>
+    </target>
+    <config xmlns:xc="urn:ietf:params:xml:ns:netconf:base:1.0">
+        <devices xmlns="http://terastrm.net/ns/yang/terastream-wireless">
+            <device xc:operation="delete">
+                <name>wl0</name>
+            </device>
+            <device xc:operation="delete">
+                <name>wl1</name>
+            </device>
+        </devices>
+    </config>
+</edit-config>
+"""
+
+Reply = """<ok/>"""
+[[unitTest.test]]
+### set the device wl0
+
+RPC = """
+<edit-config>
+    <target>
+        <running/>
+    </target>
+    <config>
+        <devices xmlns="http://terastrm.net/ns/yang/terastream-wireless">
+            <device>
+                <name>wl0</name>
+                <type>false</type>
+                <country>EU/13</country>
+                <frequencyband>5</frequencyband>
+                <bandwidth>80</bandwidth>
+                <channel>auto</channel>
+                <obss_coex>false</obss_coex>
+                <scantimer>15</scantimer>
+                <wmm>false</wmm>
+                <wmm_noack>true</wmm_noack>
+                <txpower>100</txpower>
+                <rateset>default</rateset>
+                <frag>2346</frag>
+                <rts>2347</rts>
+                <dtim_period>1</dtim_period>
+                <beacon_int>100</beacon_int>
+                <rxchainps>true</rxchainps>
+                <rxchainps_qt>10</rxchainps_qt>
+                <rxchainps_pps>10</rxchainps_pps>
+                <rifs>true</rifs>
+                <rifs_advert>true</rifs_advert>
+                <maxassoc>32</maxassoc>
+                <dfsc>false</dfsc>
+                <hwmode>auto</hwmode>
+                <enabled>true</enabled>
+                <frameburst>true</frameburst>
+                <beamforming>false</beamforming>
+                <atf>true</atf>
+                <doth>1</doth>
+                <interface>
+                    <name>cfg053579</name>
+                    <device>wl0</device>
+                    <ifname>wl0</ifname>
+                    <network>lan</network>
+                    <mode>ap</mode>
+                    <ssid>PANTERA-7858</ssid>
+                    <encryption>psk2</encryption>
+                    <cipher>auto</cipher>
+                    <key>SUBA6AXU3A7YKJ</key>
+                    <gtk_rekey>3600</gtk_rekey>
+                    <net_reauth>36000</net_reauth>
+                    <wps_pbc>false</wps_pbc>
+                    <wmf_bss_enable>false</wmf_bss_enable>
+                    <bss_max>32</bss_max>
+                    <closed>true</closed>
+                    <isolate>true</isolate>
+                    <enabled>false</enabled>
+                    <macfilter>0</macfilter>
+                    <hidden>true</hidden>
+                </interface>
+            </device>
+            <device>
+                <name>wl1</name>
+                <type>false</type>
+                <country>EU/13</country>
+                <frequencyband>2.4</frequencyband>
+                <bandwidth>20</bandwidth>
+                <channel>auto</channel>
+                <obss_coex>false</obss_coex>
+                <scantimer>15</scantimer>
+                <wmm>false</wmm>
+                <wmm_noack>true</wmm_noack>
+                <txpower>100</txpower>
+                <rateset>default</rateset>
+                <frag>2346</frag>
+                <rts>2347</rts>
+                <dtim_period>1</dtim_period>
+                <beacon_int>100</beacon_int>
+                <rxchainps>true</rxchainps>
+                <rxchainps_qt>10</rxchainps_qt>
+                <rxchainps_pps>10</rxchainps_pps>
+                <rifs>true</rifs>
+                <rifs_advert>true</rifs_advert>
+                <maxassoc>32</maxassoc>
+                <dfsc>false</dfsc>
+                <hwmode>auto</hwmode>
+                <enabled>true</enabled>
+                <frameburst>true</frameburst>
+                <beamforming>true</beamforming>
+                <atf>true</atf>
+                <doth>0</doth>
+                <interface>
+                    <name>cfg083579</name>
+                    <device>wl1</device>
+                    <ifname>wl1</ifname>
+                    <network>lan</network>
+                    <mode>ap</mode>
+                    <ssid>PANTERA-7858</ssid>
+                    <encryption>psk2</encryption>
+                    <cipher>auto</cipher>
+                    <key>SUBA6AXU3A7YKJ</key>
+                    <gtk_rekey>3600</gtk_rekey>
+                    <net_reauth>36000</net_reauth>
+                    <wps_pbc>false</wps_pbc>
+                    <wmf_bss_enable>false</wmf_bss_enable>
+                    <bss_max>32</bss_max>
+                    <closed>true</closed>
+                    <isolate>true</isolate>
+                    <enabled>false</enabled>
+                    <macfilter>0</macfilter>
+                    <hidden>true</hidden>
+                </interface>
+            </device>
+        </devices>
+    </config>
+</edit-config>
+"""
+
+Reply = """<ok/>"""
+
+[[unitTest.test]]
+
+RPC = """
+<get>
+    <filter  xmlns:terastream-wireless='http://terastrm.net/ns/yang/terastream-wireless'  type="xpath" select="/terastream-wireless:devices">
+    </filter>
+</get>
+"""
+
+Reply = """<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><devices xmlns="http://terastrm.net/ns/yang/terastream-wireless"><device><name>wl0</name><type>false</type><country>EU/13</country><frequencyband>5</frequencyband><bandwidth>80</bandwidth><channel>auto</channel><obss_coex>false</obss_coex><scantimer>15</scantimer><wmm>false</wmm><wmm_noack>true</wmm_noack><txpower>100</txpower><rateset>default</rateset><frag>2346</frag><rts>2347</rts><dtim_period>1</dtim_period><beacon_int>100</beacon_int><rxchainps>true</rxchainps><rxchainps_qt>10</rxchainps_qt><rxchainps_pps>10</rxchainps_pps><rifs>true</rifs><rifs_advert>true</rifs_advert><maxassoc>32</maxassoc><dfsc>false</dfsc><hwmode>auto</hwmode><enabled>true</enabled><frameburst>true</frameburst><beamforming>false</beamforming><atf>true</atf><doth>1</doth><interface><name>cfg053579</name><device>wl0</device><ifname>wl0</ifname><network>lan</network><mode>ap</mode><ssid>PANTERA-7858</ssid><encryption>psk2</encryption><cipher>auto</cipher><key>SUBA6AXU3A7YKJ</key><gtk_rekey>3600</gtk_rekey><net_reauth>36000</net_reauth><wps_pbc>false</wps_pbc><wmf_bss_enable>false</wmf_bss_enable><bss_max>32</bss_max><closed>true</closed><isolate>true</isolate><enabled>false</enabled><macfilter>0</macfilter><hidden>true</hidden></interface></device><device><name>wl1</name><type>false</type><country>EU/13</country><frequencyband>2.4</frequencyband><bandwidth>20</bandwidth><channel>auto</channel><obss_coex>false</obss_coex><scantimer>15</scantimer><wmm>false</wmm><wmm_noack>true</wmm_noack><txpower>100</txpower><rateset>default</rateset><frag>2346</frag><rts>2347</rts><dtim_period>1</dtim_period><beacon_int>100</beacon_int><rxchainps>true</rxchainps><rxchainps_qt>10</rxchainps_qt><rxchainps_pps>10</rxchainps_pps><rifs>true</rifs><rifs_advert>true</rifs_advert><maxassoc>32</maxassoc><dfsc>false</dfsc><hwmode>auto</hwmode><enabled>true</enabled><frameburst>true</frameburst><beamforming>true</beamforming><atf>true</atf><doth>0</doth><interface><name>cfg083579</name><device>wl1</device><ifname>wl1</ifname><network>lan</network><mode>ap</mode><ssid>PANTERA-7858</ssid><encryption>psk2</encryption><cipher>auto</cipher><key>SUBA6AXU3A7YKJ</key><gtk_rekey>3600</gtk_rekey><net_reauth>36000</net_reauth><wps_pbc>false</wps_pbc><wmf_bss_enable>false</wmf_bss_enable><bss_max>32</bss_max><closed>true</closed><isolate>true</isolate><enabled>false</enabled><macfilter>0</macfilter><hidden>true</hidden></interface></device></devices></data>"""
+
+[[unitTest.test]]
+
+RPC = """
+  <call xmlns="urn:ietf:params:xml:ns:yang:test-plugin">
+    <command>uci show wireless.wl0</command>
+  </call>
+"""
+
+Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">wireless.wl0=wifi-device
+wireless.wl0.type='broadcom'
+wireless.wl0.country='EU/13'
+wireless.wl0.band='a'
+wireless.wl0.bandwidth='80'
+wireless.wl0.hwmode='auto'
+wireless.wl0.channel='auto'
+wireless.wl0.scantimer='15'
+wireless.wl0.wmm='1'
+wireless.wl0.wmm_noack='0'
+wireless.wl0.txpower='100'
+wireless.wl0.rateset='default'
+wireless.wl0.frag='2346'
+wireless.wl0.rts='2347'
+wireless.wl0.dtim_period='1'
+wireless.wl0.beacon_int='100'
+wireless.wl0.rxchainps='0'
+wireless.wl0.rxchainps_qt='10'
+wireless.wl0.rxchainps_pps='10'
+wireless.wl0.rifs='0'
+wireless.wl0.rifs_advert='0'
+wireless.wl0.maxassoc='32'
+wireless.wl0.beamforming='1'
+wireless.wl0.doth='1'
+wireless.wl0.dfsc='1'
+wireless.wl0.wmm_apsd='false'
+wireless.wl0.obss_coex='1'
+wireless.wl0.disabled='0'
+wireless.wl0.frameburst='0'
+wireless.wl0.atf='0'
+</response>"""
+
+[[unitTest.test]]
+
+RPC = """
+  <call xmlns="urn:ietf:params:xml:ns:yang:test-plugin">
+    <command>uci show wireless.cfg053579</command>
+  </call>
+"""
+
+Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">wireless.cfg053579=wifi-iface
+wireless.cfg053579.device='wl0'
+wireless.cfg053579.network='lan'
+wireless.cfg053579.mode='ap'
+wireless.cfg053579.cipher='auto'
+wireless.cfg053579.key='SUBA6AXU3A7YKJ'
+wireless.cfg053579.gtk_rekey='3600'
+wireless.cfg053579.macfilter='0'
+wireless.cfg053579.wps_pbc='1'
+wireless.cfg053579.wmf_bss_enable='1'
+wireless.cfg053579.bss_max='32'
+wireless.cfg053579.ifname='wl0'
+wireless.cfg053579.ssid='PANTERA-7858'
+wireless.cfg053579.encryption='psk2'
+wireless.cfg053579.net_reauth='36000'
+wireless.cfg053579.closed='0'
+wireless.cfg053579.isolate='0'
+wireless.cfg053579.disabled='1'
+wireless.cfg053579.hidden='0'
+</response>"""
+
+[[unitTest.test]]
+
+RPC = """
+  <call xmlns="urn:ietf:params:xml:ns:yang:test-plugin">
+    <command>uci show wireless.wl1</command>
+  </call>
+"""
+
+Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">wireless.wl1=wifi-device
+wireless.wl1.type='broadcom'
+wireless.wl1.country='EU/13'
+wireless.wl1.band='b'
+wireless.wl1.bandwidth='20'
+wireless.wl1.hwmode='auto'
+wireless.wl1.channel='auto'
+wireless.wl1.scantimer='15'
+wireless.wl1.wmm='1'
+wireless.wl1.wmm_noack='0'
+wireless.wl1.txpower='100'
+wireless.wl1.rateset='default'
+wireless.wl1.frag='2346'
+wireless.wl1.rts='2347'
+wireless.wl1.dtim_period='1'
+wireless.wl1.beacon_int='100'
+wireless.wl1.rxchainps='0'
+wireless.wl1.rxchainps_qt='10'
+wireless.wl1.rxchainps_pps='10'
+wireless.wl1.rifs='0'
+wireless.wl1.rifs_advert='0'
+wireless.wl1.maxassoc='32'
+wireless.wl1.doth='0'
+wireless.wl1.wmm_apsd='false'
+wireless.wl1.obss_coex='1'
+wireless.wl1.dfsc='1'
+wireless.wl1.disabled='0'
+wireless.wl1.frameburst='0'
+wireless.wl1.beamforming='0'
+wireless.wl1.atf='0'
+</response>"""
+
+[[unitTest.test]]
+
+RPC = """
+  <call xmlns="urn:ietf:params:xml:ns:yang:test-plugin">
+    <command>uci show wireless.cfg083579</command>
+  </call>
+"""
+
+Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">wireless.cfg083579=wifi-iface
+wireless.cfg083579.device='wl1'
+wireless.cfg083579.network='lan'
+wireless.cfg083579.mode='ap'
+wireless.cfg083579.ssid='PANTERA-7858'
+wireless.cfg083579.cipher='auto'
+wireless.cfg083579.key='SUBA6AXU3A7YKJ'
+wireless.cfg083579.gtk_rekey='3600'
+wireless.cfg083579.macfilter='0'
+wireless.cfg083579.wps_pbc='1'
+wireless.cfg083579.wmf_bss_enable='1'
+wireless.cfg083579.bss_max='32'
+wireless.cfg083579.ifname='wl1'
+wireless.cfg083579.encryption='psk2'
+wireless.cfg083579.net_reauth='36000'
+wireless.cfg083579.closed='0'
+wireless.cfg083579.isolate='0'
+wireless.cfg083579.disabled='1'
+wireless.cfg083579.hidden='0'
+</response>"""
+
