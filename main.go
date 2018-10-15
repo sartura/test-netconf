@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -32,7 +33,7 @@ type testType int
 
 const (
 	stringMatch testType = 0
-	regexMatch = 1
+	regexMatch           = 1
 )
 
 func (t *testType) UnmarshalText(text []byte) error {
@@ -54,7 +55,7 @@ type test struct {
 	Type  testType //reply match type
 }
 
-func parseConfig(configFile string) {
+func parseConfig(configFile string, address string, username string, password string) {
 
 	fmt.Printf("Parsing config file: %s\n", configFile)
 
@@ -66,14 +67,24 @@ func parseConfig(configFile string) {
 		os.Exit(1)
 	}
 
+	if "" == address {
+		address = Config.Login.Address
+	}
+	if "" == username {
+		username = Config.Login.Username
+	}
+	if "" == password {
+		password = Config.Login.Password
+	}
+
 	auth := &ssh.ClientConfig{
-		User:            Config.Login.Username,
-		Auth:            []ssh.AuthMethod{ssh.Password(Config.Login.Password)},
+		User:            username,
+		Auth:            []ssh.AuthMethod{ssh.Password(password)},
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 
 	/* create NETCONF session */
-	s, err := netconf.DialSSH(Config.Login.Address, auth)
+	s, err := netconf.DialSSH(address, auth)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -118,9 +129,11 @@ func parseConfig(configFile string) {
 func main() {
 
 	/* get list of config files */
-	files := os.Args[1:]
+	folder := flag.String("folder", ".", "Path to folder containing config files")
+	address := flag.String("address", "", "IP address and port of the NETCONF server")
+	username := flag.String("username", "", "NETCONF server usernamer")
+	password := flag.String("password", "", "NETCONF server password")
+	flag.Parse()
 
-	for _, file := range files {
-		parseConfig(file)
-	}
+	parseConfig(*folder, *address, *username, *password)
 }
