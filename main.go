@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"regexp"
 	"time"
@@ -134,5 +135,9 @@ func main() {
 	password := flag.String("password", "", "NETCONF server password")
 	flag.Parse()
 
-	parseConfig(*folder, *address, *username, *password)
+	files, _ := ioutil.ReadDir(*folder)
+	for _, file := range files {
+		filePath := *folder + "/" + file.Name()
+		parseConfig(filePath, *address, *username, *password)
+	}
 }
