@@ -1,9 +1,3 @@
-[login]
-
-address = "[::]:830"
-username = "root"
-password = "root"
-
 ### account_name ###
 [[unitTest]]
 
@@ -722,8 +716,7 @@ RPC = """
 </get>
 """
 
-Reply ="""<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><sip xmlns="http://terastrm.net/ns/yang/terastream-sip"><digitmap><dials>_[2-6]xxxxx</dials><dials>_8[1-8]xxxx</dials><dials>_89xxxxx</dials><dials>_7[1-7]xxxx</dials><dials>_78xxxxx</dials><dials>_1987</dials><dials>_195</dials><dials>_194</dials><dials>_193</dials><dials>_192</dials><dials>_13[012456789]xx</dials><dials>_1[245678]xxx</dials><dials>_118xx</dials><dials>_116xxx</dials><dials>_112</dials><dials>_0[2-5]x[2-6]xxxxx</dials><dials>_0[2-5]x8[1-8]xxxx</dials><dials>_0[2-5]x89xxxxx</dials><dials>_0[2-5]x7[1-7]xxxx</dials><dials>_0[2-5]x78xxxxx</dials><dials>_098[2-8]xxxxx</dials><dials>_0989xxxxxx</dials><dials>_0981xxxxxx</dials><dials>_09[012345679]xxxxxxx</dials><dials>_089xxxxxxxx</dials><dials>_08001xxxxxx</dials><dials>_07[24567]xxxxxx</dials><dials>_06[12459]xxxxxx</dials><dials>_01[2-8]xxxxxx</dials><dials>_*xx*.#</dials><dials>_#xx#</dials><dials>_*xx.#</dials><dials>_*#xx*.#</dials><dials>_*#xx.#</dials></digitmap></sip></data>"""
-
+Reply ="""<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"><sip xmlns="http://terastrm.net/ns/yang/terastream-sip"><digitmap><dials>_112</dials><dials>_116xxx</dials><dials>_118xx</dials><dials>_13xxx</dials><dials>_19[2-5]</dials><dials>_1987</dials><dials>_[2-8]xxxxxx</dials><dials>_0[2-5]x112</dials><dials>_0[2-5]x[2-6]xxxxx</dials><dials>_0[2-5]x7[0-79]xxxx</dials><dials>_0[2-5]x8[0-8]xxxx</dials><dials>_02x78xxxx[0-9T]</dials><dials>_02x89xxxx</dials><dials>_03178xxxx[0-9T]</dials><dials>_03189xxxx</dials><dials>_03[2-5]78xxxx</dials><dials>_03[2-5]89xxxx[0-9T]</dials><dials>_04[0348]78xxxx[0-9T]</dials><dials>_04[0348]89xxxx</dials><dials>_04[279]78xxxx</dials><dials>_04[279]89xxxx[0-9T]</dials><dials>_05x78xxxx</dials><dials>_05x89xxxx[0-9T]</dials><dials>_06[2459]xxxxxx</dials><dials>_07[2467]xxxxxx</dials><dials>_089xxxxxxxx</dials><dials>_097[5679]xxxxxx</dials><dials>_0980xxxxx</dials><dials>_0981[36-9]xxxxx</dials><dials>_098[2-8]xxxxx</dials><dials>_0989xxxxxx</dials><dials>_099[2-9]xxxxxx</dials><dials>_x.[ET]</dials><dials>_[*#]y.[#T]</dials></digitmap></sip></data>"""
 
 [[unitTest.test]]
 
@@ -755,7 +748,7 @@ RPC = """
   </call>
 """
 
-Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">_[2-6]xxxxx _8[1-8]xxxx _89xxxxx _7[1-7]xxxx _78xxxxx _1987 _195 _194 _193 _192 _13[012456789]xx _1[245678]xxx _118xx _116xxx _112 _0[2-5]x[2-6]xxxxx _0[2-5]x8[1-8]xxxx _0[2-5]x89xxxxx _0[2-5]x7[1-7]xxxx _0[2-5]x78xxxxx _098[2-8]xxxxx _0989xxxxxx _0981xxxxxx _09[012345679]xxxxxxx _089xxxxxxxx _08001xxxxxx _07[24567]xxxxxx _06[12459]xxxxxx _01[2-8]xxxxxx _*xx*.# _#xx# _*xx.# _*#xx*.# _*#xx.# _999
+Reply = """<response xmlns="urn:ietf:params:xml:ns:yang:test-plugin">_112 _116xxx _118xx _13xxx _19[2-5] _1987 _[2-8]xxxxxx _0[2-5]x112 _0[2-5]x[2-6]xxxxx _0[2-5]x7[0-79]xxxx _0[2-5]x8[0-8]xxxx _02x78xxxx[0-9T] _02x89xxxx _03178xxxx[0-9T] _03189xxxx _03[2-5]78xxxx _03[2-5]89xxxx[0-9T] _04[0348]78xxxx[0-9T] _04[0348]89xxxx _04[279]78xxxx _04[279]89xxxx[0-9T] _05x78xxxx _05x89xxxx[0-9T] _06[2459]xxxxxx _07[2467]xxxxxx _089xxxxxxxx _097[5679]xxxxxx _0980xxxxx _0981[36-9]xxxxx _098[2-8]xxxxx _0989xxxxxx _099[2-9]xxxxxx _x.[ET] _[*#]y.[#T] _999
 </response>"""
 
 [[unitTest.test]]
