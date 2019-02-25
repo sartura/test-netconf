@@ -69,12 +69,21 @@ func parseConfig(configFile string, address string, username string, password st
 
 	if "" == address {
 		address = Config.Login.Address
+		if Config.Login.Address == "" {
+			log.Fatal("Missing address")
+		}
 	}
 	if "" == username {
 		username = Config.Login.Username
+		if Config.Login.Username == "" {
+			log.Fatal("Missing username")
+		}
 	}
 	if "" == password {
 		password = Config.Login.Password
+		if Config.Login.Password == "" {
+			log.Fatal("Missing password")
+		}
 	}
 
 	auth := &ssh.ClientConfig{
@@ -142,8 +151,9 @@ func main() {
 			filePath := *folder + "/" + file.Name()
 			parseConfig(filePath, *address, *username, *password)
 		}
-	}
-	if "" != *file {
+	} else if "" != *file {
 		parseConfig(*file, *address, *username, *password)
+	} else {
+		log.Fatal("No config folder or file specified")
 	}
 }
