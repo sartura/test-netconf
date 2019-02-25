@@ -131,9 +131,9 @@ func main() {
 	/* get list of config files */
 	file := flag.String("file", "", "Path to folder containing config files")
 	folder := flag.String("folder", "", "Path to folder containing config files")
-	address := flag.String("address", "", "IP address and port of the NETCONF server")
-	username := flag.String("username", "", "NETCONF server usernamer")
-	password := flag.String("password", "", "NETCONF server password")
+	address := flag.String("address", "[::]:830", "IP address and port of the NETCONF server")
+	username := flag.String("username", "root", "NETCONF server usernamer")
+	password := flag.String("password", "root", "NETCONF server password")
 	flag.Parse()
 
 	if "" != *folder {
