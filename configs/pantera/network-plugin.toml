@@ -25,12 +25,14 @@ RPC = """
                 <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
                     <mtu>2000</mtu>
                 </ipv4>
+                <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
             </interface>
             <interface>
                 <name>eth1</name>
                 <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
                     <mtu>2000</mtu>
                 </ipv4>
+                <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
             </interface>
         </interfaces>
     </config>
@@ -95,6 +97,7 @@ RPC = """
                         <ip>192.168.2.100</ip>
                     </address>
                 </ipv4>
+                <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
             </interface>
             <interface>
                 <name>eth1</name>
@@ -103,6 +106,7 @@ RPC = """
                         <ip>10.10.1.5</ip>
                     </address>
                 </ipv4>
+                <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
             </interface>
         </interfaces>
     </config>
@@ -128,6 +132,7 @@ RPC = """
                         <prefix-length>24</prefix-length>
                     </address>
                 </ipv4>
+                <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
             </interface>
             <interface>
                 <name>eth1</name>
@@ -137,6 +142,7 @@ RPC = """
                         <prefix-length>16</prefix-length>
                     </address>
                 </ipv4>
+                <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
             </interface>
         </interfaces>
     </config>
